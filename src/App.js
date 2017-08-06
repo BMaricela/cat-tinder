@@ -7,6 +7,7 @@ import {
   Row
 } from 'react-bootstrap'
 import Cats from './pages/Cats'
+import NewCat from './pages/NewCat'
 
 class App extends Component {
   constructor(props){
@@ -53,6 +54,7 @@ class App extends Component {
                   </Col>
                 </Row>
               </PageHeader>
+              <NewCat />
             </Grid>
           )} />
 
