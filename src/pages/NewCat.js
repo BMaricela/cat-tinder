@@ -9,7 +9,6 @@ class NewCat extends Component {
     return (
       <Row>
         <Col>
-          <h2>New Cat</h2>
         </Col>
       </Row>
     );

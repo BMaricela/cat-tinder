@@ -9,7 +9,6 @@ class Cats extends Component {
     return (
       <Row>
         <Col>
-          <h2>Cats</h2>
         </Col>
       </Row>
     );
