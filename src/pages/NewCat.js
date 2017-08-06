@@ -26,6 +26,10 @@ class NewCat extends Component {
     this.setState({form: formState})
   }
 
+  handleSubmit(){
+    this.props.onSubmit(this.state.form)
+  }
+
   render() {
     return (
       <form>
@@ -73,7 +77,9 @@ class NewCat extends Component {
 
         <Row>
           <Col xs={6}>
-            <Button id="submit">Create Cat Profile</Button>
+            <Button
+              onClick={this.handleSubmit.bind(this)}
+            id="submit">Create Cat Profile</Button>
           </Col>
         </Row>
 

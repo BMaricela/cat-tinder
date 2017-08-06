@@ -28,26 +28,26 @@ it('has a submit button', ()=>{
   expect(component.find('button#submit').text()).toBe("Create Cat Profile")
 })
 
+it("calls submitHandler on submit", ()=>{
+  const mockSubmitHandler = jest.fn()
+  const component = mount(<NewCat onSubmit={mockSubmitHandler}/>)
+  component.find('button#submit').simulate('click', {button: 0})
+  expect(mockSubmitHandler.mock.calls.length).toBe(1)
+  expect(mockSubmitHandler.mock.calls[0]).toBe({
+  })
+})
 
+it("passes values on submit", ()=>{
+  const mockSubmitHandler = jest.fn()
+  const component = mount(<NewCat onSubmit={mockSubmitHandler}/>)
+  component.find('input[name="name"]').simulate('change', {target: {value: 'Paws', name: 'name'}})
+  component.find('input[name="age"]').simulate('change', {target: {value: 2, name: 'age'}})
+  component.find('textarea[name="enjoys"]').simulate('change', {target: {value: 'Scratches', name: 'enjoys'}})
+  component.find('button#submit').simulate('click', {button: 0})
 
+  const submittedValues = mockSubmitHandler.mock.calls[0][0]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//it("calls submitHandler on submit", ()=>{
-//  const mockSubmitHandler = jest.fn()
-//  const component = mount(<NewCat onSubmit={mockSubmitHandler}/>)
-//  component.find('button#submit').simulate('click', {button: 0})
-//  expect(mockSubmitHandler.mock.calls.length).toBe(1)
-//})
+  expect(submittedValues["name"]).toBe("Paws")
+  expect(submittedValues["age"]).toBe(2)
+  expect(submittedValues["enjoys"]).toBe("Scratches")
+})
