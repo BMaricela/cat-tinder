@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route
+} from 'react-router-dom'
 import {
   Col,
   Grid,
@@ -13,27 +17,49 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      cats: [
-        {
-          id: 1,
-          name: 'Morris',
-          age: 2,
-          enjoys: "Long walks on the beach."
-        },
-        {
-          id: 1,
-          name: 'Paws',
-          age: 4,
-          enjoys: "Snuggling by the fire."
-        },
-        {
-          id: 3,
-          name: 'Mr. Meowsalot',
-          age: 12,
-          enjoys: "Being in charge."
-        }
-      ]
+      apiUrl: "http://localhost:3000",
+      cats: [],
+      newCatSuccess: false,
+      errors: null
     }
+  }
+
+  handleNewcat(params){
+    fetch(`${this.state.apiUrl}/cats`,
+      {
+        body: JSON.stringify(params),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: "POST"
+      }
+    )
+    .then((rawResponse)=>{
+      return rawResponse.json()
+    })
+    .then((parsedResponse) =>{
+      if(parsedResponse.errors){
+        this.setState({errors: parsedResponse.errors})
+      }else{
+        const cats = Object.assign([], this.state.cats)
+        cats.push(parsedResponse.cat)
+        this.setState({
+          cats: cats,
+          errors: null,
+          newCatSuccess: true
+        })
+      }
+    })
+  }
+
+  componentWillMount(){
+    fetch(`${this.state.apiUrl}/cats`)
+    .then((rawResponse) =>{
+      return rawResponse.json()
+    })
+    .then((parsedResponse)=>{
+      this.setState({cats: parsedResponse.cats})
+    })
   }
   render() {
     return (
@@ -47,14 +73,16 @@ class App extends Component {
                     Cat Tinder
                     <small className='subtitle'>Add a Cat</small>
                   </Col>
-                  <Col xs={4}>
-                    <small>
-                      <Link to='/cats' id='cats-link'>Show me the Cats</Link>
-                    </small>
-                  </Col>
                 </Row>
               </PageHeader>
-              <NewCat />
+              <NewCat
+                onSubmit={this.handleNewcat.bind(this)}
+                errors={this.state.errors && this.state.errors.validations}
+              />
+              {this.state.newCatSuccess &&
+                <Redirect to="/cats" />
+              }
+
             </Grid>
           )} />
 
@@ -66,14 +94,13 @@ class App extends Component {
                     Cat Tinder
                     <small className='subtitle'>All the Cats</small>
                   </Col>
-                  <Col xs={4}>
-                    <small>
-                      <Link to='/' id='cats-link'>Add a Cat</Link>
-                    </small>
-                  </Col>
                 </Row>
               </PageHeader>
               <Cats cats={this.state.cats} />
+
+              {!this.state.newCatSuccess &&
+                <Redirect to="/" />
+              }
             </Grid>
           )} />
         </div>
