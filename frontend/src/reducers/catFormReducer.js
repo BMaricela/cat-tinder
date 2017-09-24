@@ -1,7 +1,7 @@
 const initialState = {
   newCatSuccess: false,
   cat:{
-    age: 0,
+    age: '',
     name: '',
     enjoys: ''
   },
