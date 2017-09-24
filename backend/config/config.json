@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "mclark",
+    "password": null,
+    "database": "cat-tinder-development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "mclark",
+    "password": null,
+    "database": "cat-tinder-development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
