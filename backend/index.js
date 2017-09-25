@@ -1,5 +1,5 @@
 const app = require('./app')
 
-app.listen(3000, function () {
- console.log('Todo Server listening on port 3000!');
+app.listen(4000, function () {
+ console.log('Todo Server listening on port 4000!');
 });
